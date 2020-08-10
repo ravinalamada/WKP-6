@@ -54,7 +54,8 @@ const foods = [
 
 const generateCards = () => {
   const html = foods.map(food => `
-      <li class="items" id="${food.id}">${food.title}
+      <li class="items" id="${food.id}">
+        <p class="title">${food.title}</p>
         <span>${food.price}</span>
         <button type="add" class="add-btn">Add</button>
       </li>`
@@ -63,12 +64,15 @@ const generateCards = () => {
   list.innerHTML = html;
 }; generateCards();
 
+// Only returns spicy food
+
 spicyFood.addEventListener('change', function () {
   if (this.checked) {
     const foodList = foods.filter(food => food.spicy)
     const myFood = foodList.map(food =>
       `
-                  <li class="items" id="${food.id}">${food.title}
+                  <li class="items" id="${food.id}">
+                   <p class="title">${food.title}<p>
                     <span>${food.price}</span>
                     <button type="add" class="add-btn">Add</button>
                   </li>
@@ -78,12 +82,14 @@ spicyFood.addEventListener('change', function () {
   };
 });
 
+// Only returns vegetarian food
 vegetarianFood.addEventListener('change', function () {
 
   if (this.checked) {
     const filteredVegetarianFood = foods.filter(food => food.vegetarian)
     const mapedVeg = filteredVegetarianFood.map(food => `
-                  <li class="items" id="${food.id}">${food.title}
+                  <li class="items" id="${food.id}">
+                    <p class="title">${food.title}</p>
                     <span>${food.price}</span>
                     <button type="add" class="add-btn">Add</button>
                   </li>
@@ -93,11 +99,14 @@ vegetarianFood.addEventListener('change', function () {
   };
 });
 
+// Returns the item that both spicy and vegeterian are true
+
 inputEl.addEventListener('change', function () {
   if (spicyFood.checked && vegetarianFood.checked) {
     const filteredVegetarianFood = foods.filter(food => food.vegetarian && food.spicy);
     const mapedBothVegAndSpicy = filteredVegetarianFood.map(food => `
-                  <li class="items" id="${food.id}">${food.title}
+                  <li class="items" id="${food.id}">
+                    <p class="title">${food.title}</p>
                     <span>${food.price}</span>
                     <button type="add" class="add-btn">Add</button>
                   </li>
@@ -110,20 +119,19 @@ inputEl.addEventListener('change', function () {
 // Add the food list into order list
 
 listsOrder = [];
-const addOrder = (e) => {
-  if (e.target.matches('button.add-btn')) {
+const addOrder = (event) => {
+  if (event.target.matches('button.add-btn')) {
     const order = event.target.closest('.items');
     const items = {
-      id: order.querySelector('.items').textContent,
-      title: order.querySelector('.items').textContent,
+      title: order.querySelector('.title').textContent,
       price: order.querySelector('span').textContent
     };
 
     listsOrder.push(order);
     const myOrderHtml = `
-      <li class="items" id="${items.id}">
-              <div>${items.title}</div>
-              <span>&times;</span>
+      <li class="items">
+              <p>${items.title}</p>
+              <span>&times2</span>
               <span class="price">${items.price}</span>
           </div>
       </li>
