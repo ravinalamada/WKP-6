@@ -4,7 +4,7 @@ console.log('works');
 const cardContainer = document.querySelector('card-container');
 const confirmOrderBtn = document.querySelector('.confirm-order');
 const vegetarianFood = document.querySelector('#vegetarian-food');
-const spicyFood = document.querySelector('#spicy-food');
+const mySpicyFood = document.querySelector('#spicy-food');
 const tasteMenu = document.querySelector('.taste-menu');
 const list = document.querySelector('.list');
 const cardOrder = document.querySelector('#cards-order');
@@ -66,29 +66,29 @@ const generateCards = () => {
 
 // Only returns spicy food
 
-spicyFood.addEventListener('change', function () {
+mySpicyFood.addEventListener('change', function () {
   if (this.checked) {
-    const foodList = foods.filter(food => food.spicy)
-    const myFood = foodList.map(food =>
-      `
-                  <li class="items" id="${food.id}">
-                   <p class="title">${food.title}<p>
+    const filteredSpicyFood = foods.filter(food => food.spicy)
+    const mapedSpicy = filteredSpicyFood.map(food => `
+                  <li class="items">
+                    <p class="title">${food.title}</p>
                     <span>${food.price}</span>
                     <button type="add" class="add-btn">Add</button>
                   </li>
               `
     ).join('');
-    list.innerHTML = myFood;
+    list.innerHTML = mapedSpicy;
+  }else {
+    generateCards();
   };
 });
 
 // Only returns vegetarian food
 vegetarianFood.addEventListener('change', function () {
-
   if (this.checked) {
     const filteredVegetarianFood = foods.filter(food => food.vegetarian)
     const mapedVeg = filteredVegetarianFood.map(food => `
-                  <li class="items" id="${food.id}">
+                  <li class="items">
                     <p class="title">${food.title}</p>
                     <span>${food.price}</span>
                     <button type="add" class="add-btn">Add</button>
@@ -96,16 +96,18 @@ vegetarianFood.addEventListener('change', function () {
               `
     ).join('');
     list.innerHTML = mapedVeg;
+  }else {
+    generateCards();
   };
 });
 
 // Returns the item that both spicy and vegeterian are true
 
 inputEl.addEventListener('change', function () {
-  if (spicyFood.checked && vegetarianFood.checked) {
+  if (mySpicyFood.checked && vegetarianFood.checked) {
     const filteredVegetarianFood = foods.filter(food => food.vegetarian && food.spicy);
     const mapedBothVegAndSpicy = filteredVegetarianFood.map(food => `
-                  <li class="items" id="${food.id}">
+                  <li class="items">
                     <p class="title">${food.title}</p>
                     <span>${food.price}</span>
                     <button type="add" class="add-btn">Add</button>
